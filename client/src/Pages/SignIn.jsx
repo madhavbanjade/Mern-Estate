@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { signInFailure, signInStart, signInSuccess } from "../user/userSlice";
 
 const SignIn = () => {
   //this helps to track  the changes.
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormData({
       ...formData, // this tracks the data enter in the form and stay there and keep tracking..
@@ -21,7 +23,7 @@ const SignIn = () => {
     //By using the fetch you do not need to whole link api
     //Go through vite.config.js
     try {
-      setLoading(true);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/sign-in", {
         method: "POST",
         headers: {
@@ -34,13 +36,13 @@ const SignIn = () => {
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
-        setError(data.message), setLoading(false);
+        dispatch(signInFailure(data.message));
         return;
       }
-      setLoading(false);
-      setError(null), navigate("/");
+      dispatch(signInSuccess(data));
+      navigate("/");
     } catch (error) {
-      setLoading(false), setError(error.message);
+      dispatch(signInFailure(error.message));
     }
   };
   return (

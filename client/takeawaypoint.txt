@@ -1,1 +1,5 @@
 make li pointer 
+
+redux :: 
+reduc - store
+
