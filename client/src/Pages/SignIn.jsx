@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signInFailure, signInStart, signInSuccess } from "../user/userSlice";
+import OAuth from "../Components/OAuth";
 
 const SignIn = () => {
   //this helps to track  the changes.
@@ -69,6 +70,7 @@ const SignIn = () => {
         >
           {loading ? "Loading...." : "Sign In"}
         </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-3 ">
         <p>Don't have an account?</p>
