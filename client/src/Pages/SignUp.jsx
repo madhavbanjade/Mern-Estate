@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../Components/OAuth";
 
@@ -35,13 +35,16 @@ const SignUp = () => {
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
-        setError(data.message), setLoading(false);
+        setLoading(false);
+        setError(data.message);
         return;
       }
       setLoading(false);
-      setError(null), navigate("/sign-in");
+      setError(null);
+       navigate("/sign-in");
     } catch (error) {
-      setLoading(false), setError(error.message);
+      setLoading(false);
+       setError(error.message);
     }
   };
   return (
