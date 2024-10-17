@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   deleteUser,
+  getUser,
   getUserListings,
   updateUser,
   userTest,
@@ -12,6 +13,7 @@ userRouter.route("/test").get(userTest);
 userRouter.post("/update/:id", verifyToken, updateUser);
 userRouter.delete("/delete/:id", verifyToken, deleteUser);
 userRouter.get("/listings/:id", verifyToken, getUserListings);
+userRouter.get("/:id", verifyToken, getUser);
 //first token is verified and the user is updated..
 
 export default userRouter;
