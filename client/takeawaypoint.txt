@@ -21,3 +21,26 @@ firebase rules :-
       allow write: if 
       request.resource.size < 2 *1024  *1024 &&
       request.resource.contentType.matches('image/.*')
+
+
+
+
+
+// ListingItem.js
+import React from 'react';
+
+export default function ListingItem({ listing, onDelete }) {
+  return (
+    <div className="listing-item">
+      <h2>{listing.title}</h2>
+      <p>{listing.description}</p>
+      {/* Delete button */}
+      <button 
+        onClick={() => onDelete(listing._id)} 
+        className="bg-red-500 text-white p-2 rounded hover:bg-red-700"
+      >
+        Delete
+      </button>
+    </div>
+  );
+}

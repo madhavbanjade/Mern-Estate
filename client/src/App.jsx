@@ -10,6 +10,7 @@ import CreateListing from "./Pages/createListing";
 import UpdateListing from "./Pages/UpdateListing";
 import Listing from "./Pages/Listing";
 import Search from "./Pages/Search";
+import Footer from "./Components/Footer";
 
 const App = () => {
   return (
@@ -22,7 +23,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search />}></Route>
         <Route path="/listing/:listingId" element={<Listing />} />
-
+        <Route path="/footer" element={<Footer />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-listing" element={<CreateListing />} />

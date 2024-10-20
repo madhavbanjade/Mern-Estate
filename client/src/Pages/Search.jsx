@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ListingItem from "../components/ListingItem";
+import ListingItem from "../Components/ListingItem";
 
 export default function Search() {
   const navigate = useNavigate();
@@ -127,6 +127,23 @@ export default function Search() {
     }
     setListings([...listings, ...data]);
   };
+  // const handleDelete = async (listingId) => {
+  //   if (window.confirm("Are you sure you want to delete the listings!"))
+  //     try {
+  //       const res = await fetch(
+  //         `/api/listing/del/${listingId}`,
+
+  //         { method: "DELETE" }
+  //       );
+  //       if (res.ok) {
+  //         setListings(listings.filter((listing) => listing._id !== listingId));
+  //       } else {
+  //         console.log("Failed to delete listing");
+  //       }
+  //     } catch (error) {
+  //       console.log("Error delete Listing", error);
+  //     }
+  // };
   return (
     <div className="flex flex-col md:flex-row">
       <div className="p-7  border-b-2 md:border-r-2 md:min-h-screen">
@@ -246,7 +263,11 @@ export default function Search() {
           {!loading &&
             listings &&
             listings.map((listing) => (
-              <ListingItem key={listing._id} listing={listing} />
+              <ListingItem
+                key={listing._id}
+                listing={listing}
+                // onDelete={handleDelete}
+              />
             ))}
 
           {showMore && (
