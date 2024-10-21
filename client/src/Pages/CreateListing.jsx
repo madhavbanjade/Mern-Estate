@@ -8,6 +8,8 @@ import {
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css"; // Import styles
 
 export default function CreateListing() {
   const { currentUser } = useSelector((state) => state.user);
@@ -32,8 +34,6 @@ export default function CreateListing() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // console.log(files);
-  console.log(formData);
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
       setUploading(true);
@@ -51,6 +51,7 @@ export default function CreateListing() {
           });
           setImageUploadError(false);
           setUploading(false);
+          toast.success("Images uploaded successfully!"); // Show success toast
         })
         .catch((err) => {
           setImageUploadError("Image upload failed (2 mb max per image)");
@@ -130,7 +131,7 @@ export default function CreateListing() {
       if (formData.imageUrls.length < 1)
         return setError("You must upload at least one image");
       if (+formData.regularPrice < +formData.discountPrice)
-        return setError("Discount price must be less then regular price");
+        return setError("Discount price must be less than regular price");
       setLoading(true);
       setError(false);
       const res = await fetch("/api/listing/create", {
@@ -147,6 +148,8 @@ export default function CreateListing() {
       setLoading(false);
       if (data.success === false) {
         setError(data.message);
+      } else {
+        toast.success("Listing created successfully!"); // Show success toast after successful creation
       }
       navigate(`/listing/${data._id}`);
     } catch (error) {
@@ -160,11 +163,7 @@ export default function CreateListing() {
       <h1 className="text-3xl font-semibold text-center my-7">
         Create Listing
       </h1>
-
-      <form
-        onSubmit={handleSubmit}
-        className="flex  flex-col sm:flex-row gap-4"
-      >
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
         <div className="flex flex-col gap-4 flex-1">
           <input
             type="text"
@@ -316,8 +315,8 @@ export default function CreateListing() {
             )}
           </div>
         </div>
-        <div className="flex flex-col  flex-1 gap-4">
-          <p className="font font-semibold">Images:</p>
+        <div className="flex flex-col flex-1 gap-4">
+          <p className=" font-semibold">Images:</p>
           <span className="font-normal text-gray-600 ml-2">
             The first image will be the cover(Max 6)
           </span>
@@ -343,28 +342,29 @@ export default function CreateListing() {
             {ImageUploadError && ImageUploadError}
           </p>
           {formData.imageUrls.length > 0 &&
-            formData.imageUrls.map((url, index) => {
-              //map should be return..
-              return (
-                <div
-                  key={url}
-                  className="flex justify-between p-3 border items-center"
-                >
+            formData.imageUrls.map((url, index) => (
+              <div
+                key={url}
+                className="flex justify-between p-3 items-center border"
+              >
+                <div className="border rounded-lg p-2">
+                  {" "}
+                  {/* Added border here */}
                   <img
                     src={url}
                     alt="listing image"
-                    className="w-20 h-20 object-contain rounded-lg "
+                    className="w-20 h-20 object-contain rounded-lg"
                   />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="p-3 text-rose-700 rounded-lg uppercase hover:opacity-70"
-                  >
-                    Delete
-                  </button>
                 </div>
-              );
-            })}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(index)}
+                  className="p-3 text-red-700 rounded-lg uppercase hover:opacity-70"
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
           <button
             disabled={loading || uploading}
             className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
@@ -374,6 +374,7 @@ export default function CreateListing() {
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>
       </form>
+      <ToastContainer /> {/* Include ToastContainer for displaying toasts */}
     </main>
   );
 }

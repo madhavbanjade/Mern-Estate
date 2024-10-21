@@ -14,7 +14,7 @@ export default function Footer() {
       <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Company Information */}
         <div>
-          <h2 className="text-lg font-bold mb-4">Kathmandu-Nepal</h2>
+          <h2 className="text-lg font-bold mb-4">GharJagga Nepal</h2>
           <p>
             Your trusted partner in finding the perfect property. We offer a
             wide range of real estate solutions to meet your needs.
@@ -40,11 +40,6 @@ export default function Footer() {
                 About Us
               </Link>
             </li>
-            <li>
-              <Link to="/contact" className="hover:underline">
-                Contact
-              </Link>
-            </li>
           </ul>
         </div>
 
@@ -62,16 +57,52 @@ export default function Footer() {
         <div>
           <h2 className="text-lg font-bold mb-4">Follow Us</h2>
           <div className="flex space-x-4 mb-4">
-            <FaFacebook className="cursor-pointer hover:text-gray-300" />
-            <FaInstagram className="cursor-pointer hover:text-gray-300" />
-            <FaGithub className="cursor-pointer hover:text-gray-300" />
-            <FaTwitter className="cursor-pointer hover:text-gray-300" />
-            <FaLinkedin className="cursor-pointer hover:text-gray-300" />
+            <a
+              href="https://www.facebook.com/YourProfile" // Replace with your Facebook URL
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:text-gray-300"
+            >
+              <FaFacebook />
+            </a>
+            <a
+              href="https://www.instagram.com/YourProfile" // Replace with your Instagram URL
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:text-gray-300"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href="https://github.com/madhavbanjade" // Replace with your GitHub URL
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:text-gray-300"
+            >
+              <FaGithub />
+            </a>
+            <a
+              href="https://twitter.com/YourProfile" // Replace with your Twitter URL
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:text-gray-300"
+            >
+              <FaTwitter />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/YourProfile" // Replace with your LinkedIn URL
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cursor-pointer hover:text-gray-300"
+            >
+              <FaLinkedin />
+            </a>
           </div>
-          <h2 className="text-lg font-bold mb-4">
+          {/* Newsletter section can be uncommented if needed */}
+          {/* <h2 className="text-lg font-bold mb-4">
             Subscribe to Our Newsletter
-          </h2>
-          <form className="flex flex-col space-y-2">
+          </h2> */}
+          {/* <form className="flex flex-col space-y-2">
             <input
               type="email"
               placeholder="Enter your email"
@@ -80,7 +111,7 @@ export default function Footer() {
             <button className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md">
               Subscribe
             </button>
-          </form>
+          </form> */}
         </div>
       </div>
       {/* Footer Bottom */}

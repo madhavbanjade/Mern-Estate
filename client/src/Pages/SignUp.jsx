@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../Components/OAuth";
 
@@ -41,14 +41,14 @@ const SignUp = () => {
       }
       setLoading(false);
       setError(null);
-       navigate("/sign-in");
+      navigate("/sign-in");
     } catch (error) {
       setLoading(false);
-       setError(error.message);
+      setError(error.message);
     }
   };
   return (
-    <div className="p-3 max-w-lg mx-auto">
+    <div className="p-3 max-w-lg mx-auto mt-[100px]">
       <h1 className="text-3xl text-center  font-semibold my-7">Sign Up</h1>
       <form onSubmit={handleSubmit} className=" flex flex-col gap-4 ">
         <input

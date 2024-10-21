@@ -127,25 +127,8 @@ export default function Search() {
     }
     setListings([...listings, ...data]);
   };
-  // const handleDelete = async (listingId) => {
-  //   if (window.confirm("Are you sure you want to delete the listings!"))
-  //     try {
-  //       const res = await fetch(
-  //         `/api/listing/del/${listingId}`,
-
-  //         { method: "DELETE" }
-  //       );
-  //       if (res.ok) {
-  //         setListings(listings.filter((listing) => listing._id !== listingId));
-  //       } else {
-  //         console.log("Failed to delete listing");
-  //       }
-  //     } catch (error) {
-  //       console.log("Error delete Listing", error);
-  //     }
-  // };
   return (
-    <div className="flex flex-col md:flex-row">
+    <div className="flex flex-col md:flex-row mt-[100px]">
       <div className="p-7  border-b-2 md:border-r-2 md:min-h-screen">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className="flex items-center gap-2">
@@ -263,11 +246,7 @@ export default function Search() {
           {!loading &&
             listings &&
             listings.map((listing) => (
-              <ListingItem
-                key={listing._id}
-                listing={listing}
-                // onDelete={handleDelete}
-              />
+              <ListingItem key={listing._id} listing={listing} />
             ))}
 
           {showMore && (

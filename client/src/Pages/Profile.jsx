@@ -18,6 +18,10 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2"; // Import SweetAlert2
+
 export default function Profile() {
   const fileRef = useRef(null);
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -29,12 +33,7 @@ export default function Profile() {
   const [showListingsError, setShowListingsError] = useState(false);
   const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
-
-  // firebase storage
-  // allow read;
-  // allow write: if
-  // request.resource.size < 2 * 1024 * 1024 &&
-  // request.resource.contentType.matches('image/.*')
+  console.log(currentUser);
 
   useEffect(() => {
     if (file) {
@@ -84,30 +83,47 @@ export default function Profile() {
       const data = await res.json();
       if (data.success === false) {
         dispatch(updateUserFailure(data.message));
+        toast.error("Failed to update user.");
         return;
       }
 
       dispatch(updateUserSuccess(data));
       setUpdateSuccess(true);
+      toast.success("User updated successfully!");
     } catch (error) {
       dispatch(updateUserFailure(error.message));
+      toast.error("Failed to update user.");
     }
   };
 
   const handleDeleteUser = async () => {
-    try {
-      dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(deleteUserFailure(data.message));
-        return;
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        dispatch(deleteUserStart());
+        const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+        if (data.success === false) {
+          dispatch(deleteUserFailure(data.message));
+          return;
+        }
+        dispatch(deleteUserSuccess(data));
+        Swal.fire("Deleted!", "Your account has been deleted.", "success"); // Show success message
+      } catch (error) {
+        dispatch(deleteUserFailure(error.message));
+        Swal.fire("Error!", "Failed to delete your account.", "error"); // Show error message
       }
-      dispatch(deleteUserSuccess(data));
-    } catch (error) {
-      dispatch(deleteUserFailure(error.message));
     }
   };
 
@@ -122,7 +138,7 @@ export default function Profile() {
       }
       dispatch(deleteUserSuccess(data));
     } catch (error) {
-      dispatch(deleteUserFailure(data.message));
+      dispatch(deleteUserFailure(error.message));
     }
   };
 
@@ -143,23 +159,38 @@ export default function Profile() {
   };
 
   const handleListingDelete = async (listingId) => {
-    try {
-      const res = await fetch(`/api/listing/delete/${listingId}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-      if (data.success === false) {
-        console.log(data.message);
-        return;
-      }
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "This listing will be permanently deleted!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    });
 
-      setUserListings((prev) =>
-        prev.filter((listing) => listing._id !== listingId)
-      );
-    } catch (error) {
-      console.log(error.message);
+    if (result.isConfirmed) {
+      try {
+        const res = await fetch(`/api/listing/delete/${listingId}`, {
+          method: "DELETE",
+        });
+        const data = await res.json();
+        if (data.success === false) {
+          console.log(data.message);
+          return;
+        }
+
+        setUserListings((prev) =>
+          prev.filter((listing) => listing._id !== listingId)
+        );
+        Swal.fire("Deleted!", "Your listing has been deleted.", "success"); // Show success message
+      } catch (error) {
+        console.log(error.message);
+        Swal.fire("Error!", "Failed to delete the listing.", "error"); // Show error message
+      }
     }
   };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
@@ -173,7 +204,7 @@ export default function Profile() {
         />
         <img
           onClick={() => fileRef.current.click()}
-          src={formData.avatar || currentUser.avatar}
+          src={formData.avatar || currentUser.avatar || DefaultUserIcon}
           alt="profile"
           className="rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2"
         />
@@ -193,7 +224,7 @@ export default function Profile() {
         <input
           type="text"
           placeholder="username"
-          defaultValue={currentUser.username}
+          defaultValue={currentUser.userName}
           id="username"
           className="border p-3 rounded-lg"
           onChange={handleChange}
@@ -239,9 +270,6 @@ export default function Profile() {
       </div>
 
       <p className="text-red-700 mt-5">{error ? error : ""}</p>
-      <p className="text-green-700 mt-5">
-        {updateSuccess ? "User is updated successfully!" : ""}
-      </p>
       <button onClick={handleShowListings} className="text-green-700 w-full">
         Show Listings
       </button>
@@ -273,21 +301,24 @@ export default function Profile() {
                 <p>{listing.name}</p>
               </Link>
 
-              <div className="flex flex-col item-center">
+              <div className="flex flex-col items-center">
                 <button
+                  className="text-red-700 uppercase hover:underline"
                   onClick={() => handleListingDelete(listing._id)}
-                  className="text-red-700 uppercase"
                 >
                   Delete
                 </button>
                 <Link to={`/update-listing/${listing._id}`}>
-                  <button className="text-green-700 uppercase">Edit</button>
+                  <button className="text-green-700 uppercase hover:underline">
+                    Edit
+                  </button>
                 </Link>
               </div>
             </div>
           ))}
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 }
