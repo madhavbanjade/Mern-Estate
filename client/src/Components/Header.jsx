@@ -13,7 +13,7 @@ export default function Header() {
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set("searchTerm", searchTerm);
     const searchQuery = urlParams.toString();
-    navigate(/search?${searchQuery});
+    navigate(`/search?${searchQuery}`);
   };
 
   useEffect(() => {
@@ -75,4 +75,4 @@ export default function Header() {
       </div>
     </header>
   );
-}    make it responsive no need to change other code 
+}
