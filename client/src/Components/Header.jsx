@@ -26,19 +26,16 @@ export default function Header() {
 
   return (
     <header className="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 shadow-md rounded-b-lg fixed top-0 w-full z-50">
-      <div className="flex flex-col sm:flex-row justify-between items-center max-w-6xl mx-auto p-3 sm:p-4">
-        <div className="w-full sm:w-auto flex justify-between items-center">
-          <Link to="/" className="flex items-center">
-            <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-              <span className="text-indigo-700">GharJagga </span>
-              <br className="sm:hidden" />
-              <span className="text-purple-900">Nepal</span>
-            </h1>
-          </Link>
-        </div>
+      <div className="flex flex-col justify-center items-center max-w-6xl mx-auto p-3 sm:p-4 gap-3">
+        <Link to="/" className="flex items-center">
+          <h1 className="font-bold text-sm sm:text-xl text-center">
+            <span className="text-indigo-700">GharJagga </span>
+            <span className="text-purple-900">Nepal</span>
+          </h1>
+        </Link>
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-2 sm:p-3 rounded-lg flex items-center shadow-sm mt-2 sm:mt-0 w-full sm:w-auto"
+          className="bg-white p-2 sm:p-3 rounded-lg flex items-center shadow-sm w-full max-w-xs"
         >
           <input
             type="text"
@@ -51,12 +48,12 @@ export default function Header() {
             <FaSearch className="text-purple-600" />
           </button>
         </form>
-        <ul className="flex gap-4 mt-2 sm:mt-0 w-full sm:w-auto justify-center sm:justify-end">
+        <ul className="flex flex-col items-center gap-2">
           <Link to="/">
             <li className="text-purple-800 hover:underline">Home</li>
           </Link>
           <Link to="/about">
-            <li className="text-purple-800 hover:underline">About</li>
+            <li className="text-purple-800 hover:underline">About Us</li>
           </Link>
           <Link to="/profile">
             {currentUser ? (
