@@ -26,22 +26,24 @@ export default function Header() {
 
   return (
     <header className="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 shadow-md rounded-b-lg fixed top-0 w-full z-50">
-      <div className="flex justify-between items-center max-w-6xl mx-auto p-3 sm:p-4">
-        <Link to="/">
-          <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-            <span className="text-indigo-700">GharJagga </span>
-            <br />
-            <span className="text-purple-900">Nepal</span>
-          </h1>
-        </Link>
+      <div className="flex flex-col sm:flex-row justify-between items-center max-w-6xl mx-auto p-3 sm:p-4">
+        <div className="w-full sm:w-auto flex justify-between items-center">
+          <Link to="/" className="flex items-center">
+            <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
+              <span className="text-indigo-700">GharJagga </span>
+              <br className="sm:hidden" />
+              <span className="text-purple-900">Nepal</span>
+            </h1>
+          </Link>
+        </div>
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-2 sm:p-3 rounded-lg flex items-center shadow-sm"
+          className="bg-white p-2 sm:p-3 rounded-lg flex items-center shadow-sm mt-2 sm:mt-0 w-full sm:w-auto"
         >
           <input
             type="text"
             placeholder="Search..."
-            className="bg-transparent focus:outline-none w-20 sm:w-64"
+            className="bg-transparent focus:outline-none w-full sm:w-64"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -49,16 +51,12 @@ export default function Header() {
             <FaSearch className="text-purple-600" />
           </button>
         </form>
-        <ul className="flex gap-4">
+        <ul className="flex gap-4 mt-2 sm:mt-0 w-full sm:w-auto justify-center sm:justify-end">
           <Link to="/">
-            <li className="hidden sm:inline text-purple-800 hover:underline">
-              Home
-            </li>
+            <li className="text-purple-800 hover:underline">Home</li>
           </Link>
           <Link to="/about">
-            <li className="hidden sm:inline text-purple-800 hover:underline">
-              About
-            </li>
+            <li className="text-purple-800 hover:underline">About</li>
           </Link>
           <Link to="/profile">
             {currentUser ? (
