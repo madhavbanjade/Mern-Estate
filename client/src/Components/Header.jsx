@@ -26,9 +26,9 @@ export default function Header() {
 
   return (
     <header className="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 shadow-md rounded-b-lg fixed top-0 w-full z-50">
-      <div className="flex flex-col justify-center items-center max-w-6xl mx-auto p-3 sm:p-4 gap-3">
+      <div className="flex flex-row justify-between items-center max-w-6xl mx-auto p-3 sm:p-4 gap-4">
         <Link to="/" className="flex items-center">
-          <h1 className="font-bold text-sm sm:text-xl text-center">
+          <h1 className="font-bold text-sm sm:text-xl">
             <span className="text-indigo-700">GharJagga </span>
             <span className="text-purple-900">Nepal</span>
           </h1>
@@ -48,7 +48,7 @@ export default function Header() {
             <FaSearch className="text-purple-600" />
           </button>
         </form>
-        <ul className="flex flex-col items-center gap-2">
+        <ul className="flex flex-row items-center gap-4">
           <Link to="/">
             <li className="text-purple-800 hover:underline">Home</li>
           </Link>
